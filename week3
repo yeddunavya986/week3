@@ -1,0 +1,197 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "8KQ3psNV47je",
+        "outputId": "03961192-3bdc-423b-8ebe-5cf1383bae59"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/143.7 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K   \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m \u001b[32m143.4/143.7 kB\u001b[0m \u001b[31m5.3 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m143.7/143.7 kB\u001b[0m \u001b[31m2.8 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h"
+          ]
+        }
+      ],
+      "source": [
+        "!pip install groq transformers -q\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from google.colab import userdata\n",
+        "from groq import Groq\n"
+      ],
+      "metadata": {
+        "id": "VKrAcoh94_5H"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "api_key = userdata.get(\"GROQ_API_KEY\")\n",
+        "client = Groq(api_key=api_key)\n"
+      ],
+      "metadata": {
+        "id": "evp0qNjd5GpW"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# -----------------------------\n",
+        "# Prompt 1 - Minimal Instruction\n",
+        "# -----------------------------\n",
+        "prompt1 = \"Summarize the plot of Romeo and Juliet in two sentences.\"\n",
+        "\n",
+        "response1 = client.chat.completions.create(\n",
+        "    model=\"llama-3.3-70b-versatile\",\n",
+        "    messages=[\n",
+        "        {\"role\": \"user\", \"content\": prompt1}\n",
+        "    ]\n",
+        ")\n",
+        "\n",
+        "# ---------------------------------------\n",
+        "# Prompt 2 - Add Length and Style\n",
+        "# ---------------------------------------\n",
+        "prompt2 = \"\"\"\n",
+        "Summarize the plot of Romeo and Juliet.\n",
+        "\n",
+        "Write exactly two sentences.\n",
+        "Use simple English.\n",
+        "\"\"\"\n",
+        "\n",
+        "response2 = client.chat.completions.create(\n",
+        "    model=\"llama-3.3-70b-versatile\",\n",
+        "    messages=[\n",
+        "        {\"role\": \"user\", \"content\": prompt2}\n",
+        "    ]\n",
+        ")\n",
+        "\n",
+        "# ---------------------------------------\n",
+        "# Prompt 3 - Add Setting and Theme\n",
+        "# ---------------------------------------\n",
+        "prompt3 = \"\"\"\n",
+        "Summarize the plot of Romeo and Juliet.\n",
+        "\n",
+        "Write exactly two sentences.\n",
+        "Use simple English.\n",
+        "\n",
+        "Include:\n",
+        "1. Setting\n",
+        "2. Theme\n",
+        "\"\"\"\n",
+        "\n",
+        "response3 = client.chat.completions.create(\n",
+        "    model=\"llama-3.3-70b-versatile\",\n",
+        "    messages=[\n",
+        "        {\"role\": \"user\", \"content\": prompt3}\n",
+        "    ]\n",
+        ")\n",
+        "\n",
+        "# ---------------------------------------\n",
+        "# Display Results\n",
+        "# ---------------------------------------\n",
+        "\n",
+        "print(\"========== Iteration 1 ==========\\n\")\n",
+        "print(\"Prompt:\")\n",
+        "print(prompt1)\n",
+        "print(\"\\nOutput:\")\n",
+        "print(response1.choices[0].message.content)\n",
+        "\n",
+        "print(\"\\n\\n========== Iteration 2 ==========\\n\")\n",
+        "print(\"Prompt:\")\n",
+        "print(prompt2)\n",
+        "print(\"\\nOutput:\")\n",
+        "print(response2.choices[0].message.content)\n",
+        "\n",
+        "print(\"\\n\\n========== Iteration 3 ==========\\n\")\n",
+        "print(\"Prompt:\")\n",
+        "print(prompt3)\n",
+        "print(\"\\nOutput:\")\n",
+        "print(response3.choices[0].message.content)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OiY4hzFt5Qak",
+        "outputId": "d36d1c1f-2659-438e-b332-f68b5ba0c006"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "========== Iteration 1 ==========\n",
+            "\n",
+            "Prompt:\n",
+            "Summarize the plot of Romeo and Juliet in two sentences.\n",
+            "\n",
+            "Output:\n",
+            "In the tragic love story of Romeo and Juliet, two young lovers from feuding families in Verona, Italy, fall deeply in love at a ball and secretly marry, despite the danger and disapproval from their families. Their love is ultimately doomed by the animosity between their families, and the two lovers meet a heartbreaking end, with Romeo poisoning himself in Juliet's tomb after believing she is dead, and Juliet awaking to find Romeo dead and stabbing herself with his dagger to join him in death.\n",
+            "\n",
+            "\n",
+            "========== Iteration 2 ==========\n",
+            "\n",
+            "Prompt:\n",
+            "\n",
+            "Summarize the plot of Romeo and Juliet.\n",
+            "\n",
+            "Write exactly two sentences.\n",
+            "Use simple English.\n",
+            "\n",
+            "\n",
+            "Output:\n",
+            "Romeo and Juliet are two young people from different families who fall in love, but their families do not get along. The two lovers try to be together, but they ultimately die in a tragic ending because of the fighting between their families.\n",
+            "\n",
+            "\n",
+            "========== Iteration 3 ==========\n",
+            "\n",
+            "Prompt:\n",
+            "\n",
+            "Summarize the plot of Romeo and Juliet.\n",
+            "\n",
+            "Write exactly two sentences.\n",
+            "Use simple English.\n",
+            "\n",
+            "Include:\n",
+            "1. Setting\n",
+            "2. Theme\n",
+            "\n",
+            "\n",
+            "Output:\n",
+            "Romeo and Juliet is a story about two young people who fall in love in the city of Verona, but their families do not get along, which creates a big problem for them. The story shows that love is very strong, but hate and fighting can be very bad, and this theme is the main idea of the story, teaching us about the importance of peace and love.\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
